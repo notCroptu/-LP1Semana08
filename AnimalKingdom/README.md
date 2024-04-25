@@ -1,6 +1,8 @@
 ```mermaid
 classDiagram
-    abstract class Animal{
+    direction TB
+    class Animal{
+        <<Abstract>>
     }
     class Bat{
     }
@@ -16,9 +18,11 @@ classDiagram
     Animal <|-- Cat
     Animal <|-- Dog
 
-    <<interface>> IMammal{
+    class IMammal{
+        <<Interface>>
     }
-    <<interface>> ICanFly{
+    class ICanFly{
+        <<Interface>> 
     }
 
     IMammal <|.. Bat
