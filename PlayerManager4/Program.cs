@@ -49,7 +49,6 @@ namespace PlayerManager4 // >>> Change to PlayerManager2 for exercise 4 <<< //
             do
             {
                 // Show menu and get user option
-                playerList.Sort();
                 ShowMenu();
                 option = Console.ReadLine();
 
@@ -60,7 +59,7 @@ namespace PlayerManager4 // >>> Change to PlayerManager2 for exercise 4 <<< //
                         InsertPlayer();
                         break;
                     case "2":
-                        ListPlayers(playerList);
+                        ListPlayers();
                         break;
                     case "3":
                         ListPlayersWithScoreGreaterThan();
@@ -74,8 +73,8 @@ namespace PlayerManager4 // >>> Change to PlayerManager2 for exercise 4 <<< //
                 }
 
                 // Wait for user to press a key...
-                Console.Write("\nPress any key to continue...");
-                Console.Read();
+                Console.Write("\nPress ENTER to continue...");
+                Console.ReadLine();
                 Console.WriteLine("\n");
 
                 // Loop keeps going until players choses to quit (option 4)
@@ -116,20 +115,20 @@ namespace PlayerManager4 // >>> Change to PlayerManager2 for exercise 4 <<< //
         }
 
         /// <summary>
-        /// Show all players in a list of players. This method can be static
-        /// because it doesn't depend on anything associated with an instance
-        /// of the program. Namely, the list of players is given as a parameter
-        /// to this method.
+        /// Show all players in a list of players. This method is no longer static
+        /// because it depends on ListSorter() an instance of the program.
         /// </summary>
         /// <param name="playersToList">
         /// An enumerable object of players to show.
         /// </param>
-        private static void ListPlayers(IEnumerable<Player> playersToList)
+        private void ListPlayers()
         {
             // /////////////////// //
             // COMPLETE ME PLEASE! //
             // /////////////////// //
-            foreach (Player player in playersToList)
+            ListSorter();
+
+            foreach (Player player in playerList)
             {
                 Console.WriteLine($"Name={player.Name} Score={player.Score}");
             }
@@ -146,12 +145,11 @@ namespace PlayerManager4 // >>> Change to PlayerManager2 for exercise 4 <<< //
             Console.WriteLine("Please insert the score to check if it's greater than. ");
             int minScore = int.Parse(Console.ReadLine());
 
-            foreach(Player player in playerList)
+            List<Player> players =  new List<Player>(GetPlayersWithScoreGreaterThan(minScore));
+
+            foreach(Player player in players)
             {
-                if (player.Score > minScore)
-                {
-                    Console.WriteLine(player.Name);
-                }
+                Console.WriteLine(player.Name);
             }
         }
 
@@ -168,13 +166,44 @@ namespace PlayerManager4 // >>> Change to PlayerManager2 for exercise 4 <<< //
             // COMPLETE ME PLEASE! //
             // /////////////////// //
 
+            ListSorter();
+
             foreach (Player player in playerList)
             {
-                if (player.Score >  minScore)
+                if (player.Score > minScore)
                 {
                     yield return player;
                 }
             }
+        }
+
+        /// <summary>
+        /// ListSorter method asks the player the way to sort the playerList variable
+        /// </summary>
+        private void ListSorter()
+        {
+            string type = "";
+            do
+            {
+                Console.WriteLine("Insert the method to list by. score/name ascending/name descending ");
+                type = Console.ReadLine();
+
+                switch (type)
+                {
+                    case "score":
+                        playerList.Sort();
+                        break;
+                    case "name ascending":
+                        playerList.Sort(new CompareByName());
+                        break;
+                    case "name descending":
+                        playerList.Sort(new CompareByName(false));
+                        break;
+                    default:
+                        Console.Error.WriteLine("\n>>> Unknown option! <<<\n");
+                        break;
+                }
+            } while ( type != "score" && type != "name ascending" && type != "name descending" );
         }
     }
 }
