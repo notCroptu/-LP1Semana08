@@ -109,22 +109,8 @@ namespace PlayerManager1 // >>> Change to PlayerManager2 for exercise 4 <<< //
             Console.WriteLine("Insert the score of the new Player. ");
             int score = int.Parse(Console.ReadLine());
 
-            while (true)
-            {
-                Console.WriteLine($"Insert the place to insert the new Player. Current list length is {playerList.Count}.");
-                int place = int.Parse(Console.ReadLine());
-
-                if ( place >= 0 && place < playerList.Count )
-                {
-                    Player player = new Player(name, score);
-                    playerList.Insert(place, player);
-                    break;
-                }
-                else
-                {
-                    Console.Error.WriteLine("\n>>> Unknown option! <<<\n");
-                }
-            }
+            Player player = new Player(name, score);
+            playerList.Add(player);
 
         }
 
