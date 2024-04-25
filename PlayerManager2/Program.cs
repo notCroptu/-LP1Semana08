@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace PlayerManager1 // >>> Change to PlayerManager2 for exercise 4 <<< //
+namespace PlayerManager2 // >>> Change to PlayerManager2 for exercise 4 <<< //
 {
     /// <summary>
     /// The player listing program.
@@ -180,16 +180,14 @@ namespace PlayerManager1 // >>> Change to PlayerManager2 for exercise 4 <<< //
             // /////////////////// //
             // COMPLETE ME PLEASE! //
             // /////////////////// //
-            List<Player> newList = new List<Player>();
 
             foreach (Player player in playerList)
             {
                 if (player.Score >  minScore)
                 {
-                    newList.Add(player);
+                    yield return player;
                 }
             }
-            return newList;
         }
     }
 }
